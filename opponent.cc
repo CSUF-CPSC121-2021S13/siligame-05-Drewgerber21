@@ -38,18 +38,16 @@ void Opponent::Move(const graphics::Image &screen) {
 }
 
 void OpponentProjectile::Move(const graphics::Image &game_screen) {
-  SetY(GetY() + 3);
+  if (GetIsActive()) {
+    SetY(GetY() + 3);
+  }
   if (IsOutOfBounds(game_screen)) {
     SetIsActive(false);
   }
 }
 
 std::unique_ptr<OpponentProjectile> Opponent::LaunchProjectile() {
-  if (movement_counter_ != 25) {
-    return nullptr;
-  } else {
-    std::unique_ptr<OpponentProjectile> bullet_ptr;
-    return bullet_ptr;
-    movement_counter_ = 0;
-  }
+  std::unique_ptr<OpponentProjectile> opp_bullet;
+  opp_bullet = std::unique_ptr<OpponentProjectile>(new OpponentProjectile (GetX(), GetY()));
+  return std::move(opp_bullet);
 }

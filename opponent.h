@@ -33,7 +33,6 @@ class Opponent : public GameElement {
     bool going_right_ = true;
     bool moving_down_ = false;
     int movement_counter_ = 0;
-    int projectile_counter_ = 0;
 };
 
 #endif

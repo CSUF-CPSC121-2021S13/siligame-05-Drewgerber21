@@ -1,15 +1,6 @@
 #include "game_element.h"
 #include <vector>
-
-void GameElement::PadPoints(std::vector<int>& points, int pad_x, int pad_y) {
-  for (int i = 0; i < points.size(); i++) {
-    if (i % 2 == 0) {
-      points[i] += pad_x;
-    } else {
-      points[i] += pad_y;
-    }
-  }
-}
+#include <memory>
 
 bool GameElement::IntersectsWith(GameElement *game_element) {
   return !(GetX() > game_element->GetX() + game_element->GetWidth() ||

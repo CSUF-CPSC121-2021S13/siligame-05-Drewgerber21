@@ -1,6 +1,7 @@
 #ifndef GAME_ELEMENT_H
 #define GAME_ELEMENT_H
 #include "cpputils/graphics/image.h"
+#include <memory>
 
 class GameElement {
  public:
@@ -23,9 +24,6 @@ class GameElement {
     int GetWidth() const { return width_; }
     int GetHeight() const { return height_; }
     bool GetIsActive() const { return is_active; }
-
- protected:
-    void PadPoints(std::vector<int> &points, int pad_x, int pad_y);
 
  private:
     int x_ = 0;

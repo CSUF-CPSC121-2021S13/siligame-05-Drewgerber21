@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "cpputils/graphics/image.h"
 #include "game.h"
