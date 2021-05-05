@@ -2,6 +2,7 @@
 #include <iostream>
 #include "cpputils/graphics/image_event.h"
 #include <memory>
+#include <string>
 
 void Game::Init() {
   my_player_.SetX(375);
@@ -100,7 +101,11 @@ void Game::UpdateScreen() {
   if (!has_lost_) {
     game_screen_.DrawRectangle(0, 0, game_screen_.GetWidth(),
                               game_screen_.GetHeight(),
-                              graphics::Color(255, 255, 255));
+                              graphics::Color(0, 0, 0));
+    std::string score_text = "Score: ";
+    score_text += std::to_string(score_);
+    game_screen_.DrawText(10, 10, score_text, 20, 255, 255, 255);
+
     if (my_player_.GetIsActive()) {
       my_player_.Draw(game_screen_);
     }
@@ -125,7 +130,7 @@ void Game::UpdateScreen() {
   } else {
     game_screen_.DrawText(game_screen_.GetWidth() / 2 - 50,
                        game_screen_.GetHeight() / 2 - 10, "GAME OVER", 30,
-                        0, 0, 0);
+                        255, 255, 255);
   }
 }
 
