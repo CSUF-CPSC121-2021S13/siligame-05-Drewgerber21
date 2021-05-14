@@ -13,12 +13,26 @@ void Game::Init() {
 
 void Game::CreateOpponents() {
   int numXOpps = 5;
-  int Xoffset = (game_screen_.GetWidth() - 40 - 30) / numXOpps;
+  int numYOpps = 5;
+  int xConst = (game_screen_.GetWidth() - (numXOpps * 30)) / numXOpps;
+  int Xoffset = xConst + my_player_.GetWidth();
+  int Yoffset = 20 + 30;
 
   for (int i = 0; i < numXOpps; i++) {
-    std::unique_ptr<Opponent> opp;
-    opp = std::unique_ptr<Opponent>(new Opponent (20 + (i * Xoffset), 20));
-    opponents_.push_back(std::move(opp));
+    for (int j = 0; j < numYOpps; j++) {
+      if (j % 2 == 0) {
+        std::unique_ptr<Opponent> opp;
+        opp = std::unique_ptr<Opponent>(new Opponent ((xConst / 2) + (i * Xoffset), 35 + j * Yoffset));
+        opp->SetGoingRight(true);
+        opponents_.push_back(std::move(opp));
+      } else {
+        std::unique_ptr<Opponent> opp;
+        opp = std::unique_ptr<Opponent>(new Opponent ((xConst / 2) + (i * Xoffset), 35 + j * Yoffset));
+        opp->SetGoingRight(false);
+        opponents_.push_back(std::move(opp));
+      }
+
+    }
   }
 }
 
@@ -162,15 +176,13 @@ void Game::OnMouseEvent(const graphics::MouseEvent& event) {
 
 void Game::LaunchProjectiles() {
   for (int i = 0; i < opponents_.size(); i++) {
-    if (opponents_[i]->LaunchProjectile() != nullptr && my_player_.GetIsActive()
-        && projectile_counter_ % 50 == 0) {
+    if (my_player_.GetIsActive()) {
       opponent_projectiles_.push_back(std::move(opponents_[i]->LaunchProjectile()));
     }
   }
-  projectile_counter_++;
 }
 
-void Game::OnAnimationStep() {
+void Game::CheckCreateOpponents(){
   bool enemys_present_ = false;
   for (int i = 0; i < opponents_.size(); i++) {
     if (opponents_[i]->GetIsActive()) {
@@ -180,6 +192,10 @@ void Game::OnAnimationStep() {
   if (!enemys_present_) {
     CreateOpponents();
   }
+}
+
+void Game::OnAnimationStep() {
+  CheckCreateOpponents();
   MoveGameElements();
   LaunchProjectiles();
   FilterIntersections();

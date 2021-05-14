@@ -22,15 +22,27 @@ void Opponent::Draw(graphics::Image &screen) {
 void Opponent::Move(const graphics::Image &screen) {
   if (going_right_ && GetX() + GetWidth() >= screen.GetWidth() - 20) {
     going_right_ = false;
+    moving_down_ = true;
   } else if (!going_right_ && GetX() <= 20) {
     going_right_ = true;
+    moving_down_ = true;
   }
   int offset = going_right_ ? 1 : -1;
 
-  if (!moving_down_) {
-    SetX(GetX() + offset * 3);
+
+
+  if (moving_down_) {
+    if (movement_counter_ < GetHeight() + 20) {
+      SetY(GetY() + 1);
+      movement_counter_++;
+    } else {
+      moving_down_ = false;
+      movement_counter_ = 0;
+    }
+  } else {
+    SetX(GetX() + offset * 1);
+    SetY(GetY() + 1);
   }
-  SetY(GetY() + 1);
 
   if (IsOutOfBounds(screen)) {
     SetIsActive(false);
@@ -48,6 +60,10 @@ void OpponentProjectile::Move(const graphics::Image &game_screen) {
 
 std::unique_ptr<OpponentProjectile> Opponent::LaunchProjectile() {
   std::unique_ptr<OpponentProjectile> opp_bullet;
-  opp_bullet = std::unique_ptr<OpponentProjectile>(new OpponentProjectile (GetX(), GetY()));
+  if (projectile_counter_ % 50 == 0) {
+    opp_bullet = std::unique_ptr<OpponentProjectile>(new OpponentProjectile (GetX() + 15, GetY() + 25));
+  } else {
+    opp_bullet = nullptr;
+  }
   return std::move(opp_bullet);
 }

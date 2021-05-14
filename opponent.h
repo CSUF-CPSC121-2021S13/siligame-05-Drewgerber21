@@ -23,6 +23,8 @@ class Opponent : public GameElement {
 
     std::unique_ptr<OpponentProjectile> LaunchProjectile();
 
+    void SetGoingRight(bool going_right) { going_right_ = going_right; }
+
     void Draw(graphics::Image &screen);
     void Move(const graphics::Image &game_screen);
 
@@ -30,9 +32,10 @@ class Opponent : public GameElement {
     const graphics::Color kRed{255, 0, 0};
     const graphics::Color kOrange{255, 165, 0};
     const graphics::Color kYellow{255, 255, 0};
-    bool going_right_ = true;
+    bool going_right_;
     bool moving_down_ = false;
     int movement_counter_ = 0;
+    int projectile_counter_ = 0;
 };
 
 #endif

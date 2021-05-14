@@ -35,6 +35,8 @@ class Game : public graphics::AnimationEventListener,
 
   void CreateOpponents();
 
+  void CheckCreateOpponents();
+
   void MoveGameElements();
 
   void FilterIntersections();
@@ -59,8 +61,6 @@ class Game : public graphics::AnimationEventListener,
   Player my_player_;
   int score_ = 0;
   bool has_lost_ = false;
-  int projectile_counter_ = 0;
-
 };
 
 #endif
